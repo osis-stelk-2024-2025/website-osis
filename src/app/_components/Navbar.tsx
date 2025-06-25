@@ -1,63 +1,62 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { IoMdClose } from "react-icons/io";
+import Foto from '../_assets/Yu.png';
+import Logo from '../_assets/Logo.png';
+
 function Navbar() {
-  const[menu,setMenu]=useState(false)
-  const handleMenu=()=>{
-    setMenu(!menu)
-  }
-  return (
-    <>
-    <nav className="bg-white shadow-md border-gray-200 dark:bg-gray-900">
-  <div className="max-w-screen-xl flex flex-wrap items-cfenter justify-between mx-auto p-4">
-    <Link href="https://instagram.com/911zzas" className="flex items-center space-x-3 rtl:space-x-reverse">
-        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">RavellaFour</span>
-    </Link>
-    <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-      <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-        <li>
-          <Link href='/' className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Home</Link>
-        </li>
-        <li>
-          <Link href='/about' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">About</Link>
-        </li>
-        <li>
-          <Link href='/profil' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Profile</Link>
-        </li>
-        <li>
-          <Link href='/berita' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Berita</Link>
-        </li>
-      </ul>
-    </div>
-    <div>
-    <button onClick={handleMenu} className='inline-flex items-center justify-center md:hidden'>
-     
-      {
-        !menu?<GiHamburgerMenu size={30} />
-        :
-        <IoMdClose size={30}/>
-      }
-      </button>
-    </div>
-  </div>
-  {
-    menu &&(
-      <div className='md:hidden'>
-      <div className='px-2 pt-2 pb-3 space-y-1'>
-      <Link href='/' className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Home</Link>
-      <Link href='/about' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">About</Link>
-      <Link href='/profil' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Profile</Link>
-      <Link href='/berita' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Berita</Link>
-      </div>
-    </div>
+    const [menu, setMenu] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    const handleMenu = () => setMenu(!menu);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 0);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    return (
+        <>
+            <header className={`${isScrolled ? 'fixed bg-white bg-opacity-80 buram' : 'absolute bg-transparent'} top-0 left-0 w-full flex items-center z-10`}>
+                <div>
+                    <div className='container scroll-smooth' style={{ scrollBehavior: 'smooth' }}>
+                        <div className='flex items-center justify-between h-20 relative'>
+                            <div className='px-4 flex items-center'>
+                                <Image src={Logo} alt="BiruSenja Logo" width={350} height={60} />
+                            </div>
+                            <div className='flex items-center justify-center p-4'>
+                                <button className='block absolute right-4 lg:hidden' onClick={handleMenu}>
+                                    <span className={`bg-[#6B0000] block transition-all duration-300 ease-in-out h-0.5 w-6 rounded-sm ${menu ? 'rotate-45 translate-y-1' : '-translate-y-0.5'}`}></span>
+                                    <span className={`bg-[#6B0000] block transition-all duration-300 ease-in-out h-0.5 w-6 rounded-sm my-0.5 ${menu ? 'opacity-0' : 'opacity-100'}`}></span>
+                                    <span className={`bg-[#6B0000] block transition-all duration-300 ease-in-out h-0.5 w-6 rounded-sm ${menu ? '-rotate-45 -translate-y-1' : 'translate-y-0.5'}`}></span>
+                                </button>
+                                <nav className={`${!menu ? 'hidden' : 'block'} absolute py-4 bg-white shadow-lg rounded-lg max-w-[250px] w-full right-4 top-full lg:top-0 lg:block lg:static lg:bg-transparent lg:max-full lg:rounded-none lg:shadow-none`}>
+                                    <ul className='block lg:flex justify-end items-center'>
+                                        <li className='group'>
+                                            <Link href='#home' className='text-base text-black py-2 mx-8 flex group-hover:text-[#6B0000] font-bold'>Home</Link>
+                                        </li>
+                                        <li className='group'>
+                                            <Link href='#bidang' className='text-base text-black py-2 mx-8 flex group-hover:text-[#6B0000] font-bold'>Bidang</Link>
+                                        </li>
+                                        <li className='group'>
+                                            <Link href='#saksi' className='text-base text-black py-2 mx-8 flex group-hover:text-[#6B0000] font-bold'>Saksi</Link>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </>
     )
-  }
-</nav>
-    </>
-  )
 }
 
-export default Navbar
+export default Navbar;
